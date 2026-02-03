@@ -1,0 +1,320 @@
+in the console of browser when i write this code :
+const score = 100
+const balance = new Number(1000)
+
+console.log(score)
+console.log(balance)
+
+console.log(score) this gives me 100
+while console.log(balance) this gives me Number{1000} and i get to access it protoype, so what exactly is proptytpe
+
+Great question — this goes to the **core of how JavaScript works under the hood** 👍
+
+Let’s break it down step by step.
+
+---
+
+## ✅ 1. Why `score` and `balance` look different
+
+Your code:
+
+```js
+const score = 100
+const balance = new Number(1000)
+
+console.log(score)    // 100
+console.log(balance)  // Number {1000}
+```
+
+### 🔹 `score = 100`
+
+This is a **primitive value**.
+
+Type:
+
+```js
+typeof score  // "number"
+```
+
+It’s just a raw number stored in memory.
+
+---
+
+### 🔹 `balance = new Number(1000)`
+
+This is a **Number object** (wrapper object).
+
+Type:
+
+```js
+typeof balance  // "object"
+```
+
+So here, JavaScript creates an **object** around `1000`.
+
+That’s why you see:
+
+```
+Number {1000}
+```
+
+Instead of just `1000`.
+
+---
+
+## ✅ 2. What is `[[Prototype]]` / `__proto__` ?
+
+When you expand `Number {1000}` in DevTools, you see:
+
+```
+[[Prototype]]: Number
+```
+
+(or `__proto__`)
+
+This is what people mean by **prototype**.
+
+👉 Every JavaScript object has a hidden link to another object called its **prototype**.
+
+This link is used for **inheritance**.
+
+---
+
+## ✅ 3. What is Prototype (Simple Definition)
+
+> A **prototype** is an object that other objects can borrow properties and methods from.
+
+In short:
+
+```
+Object → Prototype → Prototype → ... → null
+```
+
+This is called the **prototype chain**.
+
+---
+
+## ✅ 4. Why `balance` has a prototype
+
+Because `balance` is an object:
+
+```js
+const balance = new Number(1000)
+```
+
+Internally:
+
+```
+balance → Number.prototype → Object.prototype → null
+```
+
+So `balance` gets access to methods like:
+
+```js
+balance.toString()
+balance.valueOf()
+balance.toFixed()
+```
+
+Even though you never defined them.
+
+They come from `Number.prototype`.
+
+---
+
+## ✅ 5. But `score` is primitive — how does it get methods?
+
+Good observation 👀
+
+Even though `score` is primitive, this works:
+
+```js
+score.toFixed(2)
+```
+
+Why?
+
+Because JavaScript **temporarily converts** it to an object behind the scenes.
+
+This is called **boxing**.
+
+Internally:
+
+```
+100 → new Number(100) → call method → destroy object
+```
+
+So you don’t see the object, but it exists briefly.
+
+---
+
+## ✅ 6. Seeing Prototype Manually
+
+Try this in console:
+
+```js
+Object.getPrototypeOf(balance)
+```
+
+Output:
+
+```js
+Number.prototype
+```
+
+And:
+
+```js
+Object.getPrototypeOf(Number.prototype)
+```
+
+Output:
+
+```js
+Object.prototype
+```
+
+And:
+
+```js
+Object.getPrototypeOf(Object.prototype)
+```
+
+Output:
+
+```js
+null
+```
+
+This is the full chain.
+
+---
+
+## ✅ 7. Why using `new Number()` is discouraged ❌
+
+In real projects, we avoid this:
+
+```js
+new Number(1000)
+```
+
+Because it causes bugs.
+
+Example:
+
+```js
+const x = new Number(100)
+const y = 100
+
+console.log(x == y)   // true
+console.log(x === y)  // false ❗
+```
+
+Why?
+
+Because:
+
+* `x` is object
+* `y` is primitive
+
+Different types → strict equality fails.
+
+So best practice:
+
+✅ Use primitives:
+
+```js
+const balance = 1000
+```
+
+---
+
+## ✅ 8. Prototype vs `prototype` (Important Difference)
+
+Two similar terms — don’t confuse them:
+
+### 🔹 `__proto__` / `[[Prototype]]`
+
+→ Belongs to **objects**
+
+```js
+balance.__proto__
+```
+
+Means:
+
+> "Who do I inherit from?"
+
+---
+
+### 🔹 `.prototype`
+
+→ Belongs to **constructor functions**
+
+```js
+Number.prototype
+```
+
+Means:
+
+> "What should objects created from me inherit?"
+
+---
+
+### Example:
+
+```js
+function User(name) {
+  this.name = name
+}
+
+const u1 = new User("Amit")
+
+u1.__proto__ === User.prototype  // true
+```
+
+---
+
+## ✅ 9. Real-Life Analogy 🏠
+
+Think like this:
+
+### Prototype = Parent Class
+
+```
+Person (prototype)
+   ↑
+Student (object)
+```
+
+If Student doesn’t have something → it checks Person.
+
+---
+
+### JavaScript Version:
+
+```
+balance
+  ↓
+Number.prototype
+  ↓
+Object.prototype
+  ↓
+null
+```
+
+---
+
+## ✅ 10. One-Line Answer
+
+> Prototype is JavaScript’s built-in mechanism that lets objects inherit methods and properties from other objects.
+
+---
+
+If you want, next I can explain:
+
+👉 How `prototype` works in classes
+👉 How custom objects use prototype
+👉 How this relates to `class` in JS
+👉 Interview questions on prototype
+
