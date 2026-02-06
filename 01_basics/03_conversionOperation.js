@@ -16,3 +16,5 @@ true => 1 ; false => 0
 anyvalue => true ; zero => 0
 */
 
+// comaprison{>=/<=} opeartors convert null to a number, but </> trets it as null only
+
