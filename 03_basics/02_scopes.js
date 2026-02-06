@@ -20,7 +20,7 @@ function one(){
 one()
 
 console.log(addOne(7)) //but if we declare this above the definition it will give error
- // this wont give error it will read the function
+ // this wont give error it will read the function // as its not stored in a vavriable
 function addOne(num) {
     return num+1
 }
@@ -28,6 +28,7 @@ function addOne(num) {
 const addTwo = function(num){ //this right will be called expression not function
     return(num+2)
 }
-console.log(addTwo(7)) //but if we declare this above the definition it will give error
+console.log(addTwo(7)) //but if we declare this above the definition it will give error // because the 
+//variable we are trying to print is not declred if we put it above definition
 
 //hoisting is all this concept

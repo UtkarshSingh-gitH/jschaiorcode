@@ -1,0 +1,49 @@
+Javascript execution context ::
+-this just represents how js will run and execute our scripts
+-program runns in 2phases 
+ 
+ code file --> global EC (this keywword is refered to this)
+ GEC is executed in thread, js is a single thread language
+
+ there are 2 more execution context 
+ - function execution context
+ - (optiona;, from mogooese) eval EC
+
+2 pahses of JS file executing
+- Memory creation phase 
+- Execution phase
+
+EXAMPLE */*/*/*/*/*/*/*/*/*/*
+let num1 = 10
+let num2 = 5
+function addnum(){
+    let total=num1+num2
+    return total
+}
+let result1 = addnum(num1,num2)
+let result2 = addnume(10,2)
+
+STEP 1 - Global execution (global env) --> allocated to THIS 
+STEP 2 - Memory Phase = all variables are collected and undefined are kept in it 
+        num1 = undefined
+        num2 = undefined
+        addnum = definition
+        result1 = undefined
+        result2 = undefined
+
+STEP 3 - Execution Phase = now values are assigned 
+       val1 executed and value 10 assigned 
+       val2 executed and value 5 assigned 
+       addnum is not executed as no work is happening definition already stored
+       result1 gets executed and now a new SANDBOX is created where we run all the phases(executional context) aagin
+       for the addNum function.
+       So global is defined one but for every function call a new execution phase is created.
+
+       =========================CALL STACK ============================
+
+       refer image
+       how to check on console
+
+       1. go to web console inside the SOURCE
+       2. add new snippet (js file)
+       3. below call satck scroll and search for Call Stack.
