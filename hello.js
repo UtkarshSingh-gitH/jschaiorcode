@@ -20,3 +20,6 @@ JavaScript is single-threaded because it has only one call stack and executes on
 It handles multiple operations using asynchronous APIs and the event loop,
 which allows non-blocking behavior without multi-threading.
 */
+
+//const addTwo = (num1,num2) => /* return */ num1+num2 //assumimg braces not needed
+// we can write it like (num1+num2) as well, if we use {} we need RETURN keyword

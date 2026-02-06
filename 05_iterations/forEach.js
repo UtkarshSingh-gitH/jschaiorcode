@@ -19,7 +19,7 @@ coding.forEach(printMe) // just need to give reference of function for it to use
 //coding.forEach(printMe()) // lets see, this gives error
 
 coding.forEach((item, index, arr) => {  //foraech has a lot of access not just items/value but more like whole array, index etc
-    console.log(item,index,arr);
+    console.log(item,index,arr);        // the parameters should be in same sequence
 }) 
 
 const myCoding = [
